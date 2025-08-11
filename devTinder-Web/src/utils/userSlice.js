@@ -9,12 +9,12 @@ const userSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      state.name = action.payload.name;
-      state.email = action.payload.email;
+      state.userData = action.payload;
     },
     clearUser: (state) => {
       state.name = null;
       state.email = null;
+      state.userData = null;
     },
   },
 });

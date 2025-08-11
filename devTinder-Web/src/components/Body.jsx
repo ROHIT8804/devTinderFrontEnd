@@ -20,7 +20,7 @@ function Body() {
         const user = await axios.get(BASE_URL + '/profile',{
         withCredentials: true
       })
-      dispatch(setUser({ name:user.data.user.firstName, email: user.data.user.emailId }));
+      dispatch(setUser(user.data.user));
     }
     catch (error) {
       if(error.response && error.response.status === 401) {

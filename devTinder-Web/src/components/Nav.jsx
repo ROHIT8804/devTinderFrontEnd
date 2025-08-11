@@ -26,7 +26,7 @@ function Nav() {
       {/* Navigation Bar */}
       <div className="navbar bg-base-100 shadow-sm">
         <div className="flex-1">
-          <Link to="/" className="btn btn-ghost text-xl justify-start">Dev Tinder</Link>
+          <Link to="/feed" className="btn btn-ghost text-xl justify-start">Dev Tinder</Link>
         </div>
         <div className="flex gap-2">
           {/* <input
@@ -41,10 +41,10 @@ function Nav() {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                {user && user.name ? (
+                {user && user.userData ? (
                   <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src={user.userData.photoUrl || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
                 />
                 ): null}
                 

@@ -23,7 +23,7 @@ function Login() {
     );
     const { firstName, emailId } = response.data.user;
     localStorage.setItem('user', JSON.stringify({ name:firstName, email: emailId }));
-    dispatch(setUser({ name:firstName, email: emailId }));
+    dispatch(setUser(response.data.user));
 
     navigate('/feed')
     } catch (error) {

@@ -7,17 +7,21 @@ import { BASE_URL } from '../utils/constants';
 
 function Profile() {
   
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user?.userData || {});
+  console.log("State in Profile:", user);
   const [firstName, setFirstName] = useState(user.firstName || "");
   const [lastName, setLastName] = useState(user.lastName || "");
-  const [gender, setGender] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
+  const [gender, setGender] = useState(user.gender|| "");
+  const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const [response, setResponse] = useState({}); 
 
   const handleProfileEdit = async (e) => {
     try {
+      setError("");
+      setResponse({});
       const response = await axios.patch(BASE_URL + '/profile/update', {
         firstName: firstName,
         lastName:lastName,
@@ -29,7 +33,7 @@ function Profile() {
     // const { firstName, emailId } = response.data.user;
     // localStorage.setItem('user', JSON.stringify({ name:firstName, email: emailId }));
     // dispatch(setUser({ name:firstName, email: emailId }));
-
+      setResponse(response.data);
     } catch (error) {
       setError(error?.response?.data || "Login failed. Please try again.");
       console.error("Error handling email change:", error?.response?.data);
@@ -69,6 +73,7 @@ function Profile() {
         </div>
         
         <p className="text-red-500 text-left w-full">{error}</p>
+        <p className='text-green-500 text-left w-full'>{response?.message}</p>
         <div className="card-actions justify-center mt-5">
           <button className="btn btn-primary" onClick={handleProfileEdit}>Save</button>
         </div>
