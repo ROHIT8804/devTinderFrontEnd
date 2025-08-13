@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constants';
+import ProfileCard from './ProfileCard';
 
 function Profile() {
   
   const user = useSelector((state) => state.user?.userData || {});
-  console.log("State in Profile:", user);
+
   const [firstName, setFirstName] = useState(user.firstName || "");
   const [lastName, setLastName] = useState(user.lastName || "");
   const [gender, setGender] = useState(user.gender|| "");
@@ -16,7 +17,13 @@ function Profile() {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [response, setResponse] = useState({}); 
+  const [response, setResponse] = useState({});
+  console.log("user", user);
+  const userData = {
+    firstName: firstName,
+    lastName: lastName,gender:gender,photoUrl:photoUrl}
+  
+  
 
   const handleProfileEdit = async (e) => {
     try {
@@ -30,9 +37,6 @@ function Profile() {
       },
       {withCredentials: true}
     );
-    // const { firstName, emailId } = response.data.user;
-    // localStorage.setItem('user', JSON.stringify({ name:firstName, email: emailId }));
-    // dispatch(setUser({ name:firstName, email: emailId }));
       setResponse(response.data);
     } catch (error) {
       setError(error?.response?.data || "Login failed. Please try again.");
@@ -48,6 +52,7 @@ function Profile() {
   },[navigate]);
 
   return (
+    <>
     <div className="card card-border bg-base-100 w-96" style={{ backgroundColor: "#e0f2fe" }}>
         <h2 className="card-title justify-center">User Profile</h2>
       <div className="card-body">
@@ -79,6 +84,9 @@ function Profile() {
         </div>
       </div>
     </div>
+     <ProfileCard user = {userData}/>
+    </>
+    
   );
 
 }
