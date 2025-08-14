@@ -20,8 +20,8 @@ function ProfileCard({ user }) {
                                 A card component has a figure, a body part, and inside body there are title and actions parts
                             </p>
                             <div className="card-actions justify-center my-4">
-                                <button className="btn btn-primary">Ignore</button>
-                                <button className="btn btn-primary">Interested</button>
+                                {/* <button className="btn btn-primary">Ignore</button>
+                                <button className="btn btn-primary">Interested</button> */}
                             </div>
                         </div>
                     </div>

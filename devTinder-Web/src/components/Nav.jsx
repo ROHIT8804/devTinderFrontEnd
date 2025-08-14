@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { clearUser } from "../utils/userSlice";
+import { clearFeed } from "../utils/feedSlice";
 
 function Nav() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Nav() {
       await axios.post(BASE_URL + '/logout', {}, { withCredentials: true });
       localStorage.removeItem('user');
       dispatch(clearUser());
+      dispatch(clearFeed())
       navigate('/login');
     }
     catch (error) {
