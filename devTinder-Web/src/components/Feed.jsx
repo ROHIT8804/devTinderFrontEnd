@@ -12,6 +12,7 @@ function Feed(){
     const dispatch = useDispatch();
     const feedData = useSelector((state) => state.feed);
     const handleFeed = async () => {
+        console.log("Fetching feed data...", feedData);
         if(feedData.feedData) return;
         try{
             const response = await axios.get(BASE_URL + '/users/feed', { withCredentials: true });

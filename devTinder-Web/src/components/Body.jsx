@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 function Body() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((state) => console.log("State in Body:", state) || state.user);
+  const userData = useSelector((state) => state.user);
 
   const fetchUser = async () => {
     if(userData.name) return;
@@ -21,6 +21,7 @@ function Body() {
         withCredentials: true
       })
       dispatch(setUser(user.data.user));
+      navigate('/feed');
     }
     catch (error) {
       if(error.response && error.response.status === 401) {
