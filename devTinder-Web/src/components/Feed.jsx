@@ -6,9 +6,10 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setFeed } from '../utils/feedSlice';
 import UserCard  from './UserCard';
+import { useNavigate } from 'react-router-dom';
 
 function Feed(){
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const feedData = useSelector((state) => state.feed);
     const handleFeed = async () => {
@@ -20,8 +21,12 @@ function Feed(){
         }
         catch (error) {
             console.error("Error fetching feed:", error);
+            if(error.response && error.response.status === 401) {
+                localStorage.removeItem('user');
+                navigate('/login');
         }
     } 
+}
 
     useEffect(() => {
         handleFeed();
