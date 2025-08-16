@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { clearUser } from "../utils/userSlice";
 import { clearFeed } from "../utils/feedSlice";
+import { clearConnections } from "../utils/connectionSlice";
 
 function Nav() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function Nav() {
       localStorage.removeItem('user');
       dispatch(clearUser());
       dispatch(clearFeed())
+      dispatch(clearConnections())
       navigate('/login');
     }
     catch (error) {
@@ -65,7 +67,7 @@ function Nav() {
                 </Link>
               </li>
               <li>
-                <a>Settings</a>
+                <Link to="/connections">Connections</Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>

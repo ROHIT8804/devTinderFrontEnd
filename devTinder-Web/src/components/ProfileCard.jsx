@@ -7,12 +7,12 @@ function ProfileCard({ user }) {
                 {user &&
                     <div key={user.id} className="card bg-base-100 w-96 shadow-sm">
                         <figure>
-    <img
-        src={user.photoUrl || "https://placeimg.com/400/225/arch"}
-        alt={`${user.firstName} ${user.lastName}`}
-        className="h-60 w-55 object-cover" // Example with Tailwind
-    />
-</figure>
+                            <img
+                                src={user.photoUrl || "https://placeimg.com/400/225/arch"}
+                                alt={`${user.firstName} ${user.lastName}`}
+                                className="h-60 w-55 object-cover" // Example with Tailwind
+                            />
+                        </figure>
                         <div className="card-body">
                             <h2 className="card-title">
                                 {user.firstName} {user.lastName}
@@ -26,7 +26,7 @@ function ProfileCard({ user }) {
                             </div>
                         </div>
                     </div>
-        }
+                }
             </div>
         </>
 
