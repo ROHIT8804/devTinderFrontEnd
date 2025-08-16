@@ -32,31 +32,48 @@ const connections = () => {
 
     return (
         <>
-        <div className="flex flex-wrap gap-4">
-                {Array.isArray(connectionsData) && connectionsData.map((connectionsData) => (
-                    <div key={connectionsData.id} className="card bg-base-100 w-96 shadow-sm">
-                        <figure>
-                            <img
-                                src={connectionsData?.toUserId?.photoUrl || "https://placeimg.com/400/225/arch"}
-                                alt={`${connectionsData?.toUserId?.firstName} ${connectionsData?.toUserId?.lastName}`}
-                                className="h-60 w-55 object-cover" // Example with Tailwind
-                            />
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">
-                                {connectionsData?.toUserId?.firstName} {connectionsData?.toUserId?.lastName}
-                            </h2>
-                            <p>
-                                A card component has a figure, a body part, and inside body there are title and actions parts
-                            </p>
-                            <div className="card-actions justify-center my-4">
-                                {/* <button className="btn btn-primary">Ignore</button>
-                                <button className="btn btn-primary">Interested</button> */}
-                            </div>
-                        </div>
-                    </div>
-                ))}
+        <div className="min-h-screen bg-gray-100 p-6">
+      <div className="flex flex-wrap gap-6 justify-center">
+        {Array.isArray(connectionsData) && connectionsData.map((connectionData) => (
+          <div 
+            key={connectionData.id} 
+            className="w-80 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            style={{ backgroundColor: '#28282B' }}
+          >
+            <div className="relative">
+              <img
+                src={connectionData?.toUserId?.photoUrl || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face"}
+                alt={`${connectionData?.toUserId?.firstName} ${connectionData?.toUserId?.lastName}`}
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
+            
+            <div className="p-6">
+              <h2 className="text-2xl font-bold text-white mb-3 text-center">
+                {connectionData?.toUserId?.firstName} {connectionData?.toUserId?.lastName}
+              </h2>
+              
+              <p className="text-gray-300 text-center mb-6 leading-relaxed">
+                Connect with amazing professionals and expand your network with meaningful relationships.
+              </p>
+              
+              <div className="flex gap-3 justify-center">
+                {/* <button className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
+                  Ignore
+                </button>
+                <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
+                  Connect
+                </button> */}
+              </div>
+            </div>
+            
+            {/* Bottom accent line */}
+            <div className="h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+          </div>
+        ))}
+      </div>
+        </div>
         </>
     )
 }
