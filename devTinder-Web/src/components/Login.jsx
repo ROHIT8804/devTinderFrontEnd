@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { setUser } from '../utils/userSlice';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 function Login() {
@@ -10,22 +10,22 @@ function Login() {
   const [password, setPassword] = useState("Test@1234");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     try {
 
       const response = await axios.post(BASE_URL + '/login', {
-        emailId:email,
-        password:password
+        emailId: email,
+        password: password
       },
-      {withCredentials: true}
-    );
-    const { firstName, emailId } = response.data.user;
-    localStorage.setItem('user', JSON.stringify({ name:firstName, email: emailId }));
-    dispatch(setUser(response.data.user));
+        { withCredentials: true }
+      );
+      const { firstName, emailId } = response.data.user;
+      localStorage.setItem('user', JSON.stringify({ name: firstName, email: emailId }));
+      dispatch(setUser(response.data.user));
 
-    navigate('/feed')
+      navigate('/feed')
     } catch (error) {
       setError(error?.response?.data || "Login failed. Please try again.");
       console.error("Error handling email change:", error?.response?.data);
@@ -34,14 +34,14 @@ function Login() {
 
   useEffect(() => {
     const user = localStorage.getItem('user');
-    if(user){
+    if (user) {
       navigate('/feed');
     }
-  },[navigate]);
+  }, [navigate]);
 
   return (
     <div className="card card-border bg-base-100 w-96" style={{ backgroundColor: "#e0f2fe" }}>
-        <h2 className="card-title justify-center">Login</h2>
+      <h2 className="card-title justify-center">Login</h2>
       <div className="card-body">
         <div className="mt-5">
           <label className="input validator">
@@ -61,7 +61,7 @@ function Login() {
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
               </g>
             </svg>
-            <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="mail@site.com" required />
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="mail@site.com" required />
           </label>
           <div className="validator-hint hidden">Enter valid email address</div>
         </div>
@@ -106,6 +106,12 @@ function Login() {
         <div className="card-actions justify-center mt-5">
           <button className="btn btn-primary" onClick={handleLogin}>Login</button>
         </div>
+        <p className="text-center w-full mt-3">
+          <span className="text-black">Don't have an account? </span>
+          <Link to="/signUp" className="text-sky-500 hover:underline">
+            Sign Up
+          </Link>
+        </p>
       </div>
     </div>
   );
