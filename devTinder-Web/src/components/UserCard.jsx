@@ -1,6 +1,22 @@
+import React from 'react';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constants';
 
 function UserCard({ user }) {
     console.log("user Data",user)
+
+  const handleRequests = async (data,_id)=>{
+    console.log("data",data)
+    console.log("_id",_id)
+    try {
+      let url = BASE_URL + '/request/send/'+ `${data}` + `/${_id}`;
+      const response = await axios.post(url, { withCredentials: true });
+      console.log("response", response);
+    } catch (error) {
+      console.error("Error:", error); 
+    }
+  }
+
   return (
     <div className="flex flex-wrap gap-4">
       {Array.isArray(user?.feedData) && user?.feedData.map((user, index) => (
@@ -19,8 +35,8 @@ function UserCard({ user }) {
               A card component has a figure, a body part, and inside body there are title and actions parts
             </p>
             <div className="card-actions justify-center my-4">
-              <button className="btn btn-primary">Ignore</button>
-              <button className="btn btn-primary">Interested</button>
+              <button onClick={()=>handleRequests('ignored',user._id)} className="btn btn-primary">Ignore</button>
+              <button onClick={()=>handleRequests('interested',user._id)} className="btn btn-primary">Interested</button>
             </div>
           </div>
         </div>
