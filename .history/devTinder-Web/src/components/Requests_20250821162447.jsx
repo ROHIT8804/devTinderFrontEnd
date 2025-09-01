@@ -44,18 +44,6 @@ const Requests = () => {
     getrequestData();
   }, []);
 
-  const handleRequests = async (data,_id)=>{
-    console.log("data",data)
-    console.log("_id",_id)
-    try {
-      let url = BASE_URL + '/request/review'+ `${data}` + `/${_id}`;
-      const response = await axios.post(url,{}, { withCredentials: true });
-      console.log("response", response);
-    } catch (error) {
-      console.error("Error:", error); 
-    }
-  }
-
   const shouldShowNoDataCard = () => {
     return (
       !requestData ||
@@ -103,10 +91,10 @@ const Requests = () => {
                     </p>
 
                     <div className="flex gap-3 justify-center">
-                      <button onClick={()=>handleRequests('rejected',requestData._id)} className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
+                      <button className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
                         Ignore
                       </button>
-                      <button onClick={()=>handleRequests('accepted',requestData._id)} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
+                      <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
                         Connect
                       </button>
                     </div>

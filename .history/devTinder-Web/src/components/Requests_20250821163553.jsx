@@ -103,10 +103,10 @@ const Requests = () => {
                     </p>
 
                     <div className="flex gap-3 justify-center">
-                      <button onClick={()=>handleRequests('rejected',requestData._id)} className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
+                      <button onClick={()=>handleRequests('rejected',user._id)} className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
                         Ignore
                       </button>
-                      <button onClick={()=>handleRequests('accepted',requestData._id)} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
+                      <button onClick={()=>handleRequests('accepted',user._id)} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 flex-1">
                         Connect
                       </button>
                     </div>
