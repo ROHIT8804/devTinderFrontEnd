@@ -21,10 +21,9 @@ const connections = () => {
     } catch (error) {
       console.error("Error fetching feed:", error);
       if (error.response && error.response.status === 401) {
-              localStorage.removeItem("user");
-              dispatch(logout());
-              navigate("/login");
-            }
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
     }
   }
   useEffect(() => {

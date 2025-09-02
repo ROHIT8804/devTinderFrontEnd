@@ -24,11 +24,10 @@ function Body() {
       navigate('/feed');
     }
     catch (error) {
-      if (error.response && error.response.status === 401) {
-              localStorage.removeItem("user");
-              dispatch(logout());
-              navigate("/login");
-            }
+      if(error.response && error.response.status === 401) {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
       console.error("Error fetching user:", error);
     }
     

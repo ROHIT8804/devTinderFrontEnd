@@ -4,7 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { logout } from "../utils/userSlice";
+import { setConnections } from "../utils/connectionSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import NoDataCard from "./NoDataCard";
@@ -53,11 +53,6 @@ const Requests = () => {
       console.log("response", response);
     } catch (error) {
       console.error("Error:", error); 
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("user");
-        dispatch(logout());
-        navigate("/login");
-      }
     }
   }
 
