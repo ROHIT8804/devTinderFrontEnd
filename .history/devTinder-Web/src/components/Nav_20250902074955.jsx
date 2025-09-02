@@ -15,6 +15,7 @@ function Nav() {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
       localStorage.removeItem("user");
+      dispatch(logout());
       dispatch(clearUser());
       dispatch(clearFeed());
       dispatch(clearConnections());
@@ -67,6 +68,7 @@ function Nav() {
                 <li>
                   <Link to="/profile" className="justify-between">
                     Profile
+                    <span className="badge">New</span>
                   </Link>
                 </li>
                 <li>

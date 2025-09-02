@@ -20,6 +20,7 @@ function Feed(){
             dispatch(setFeed(response.data));
         }
         catch (error) {
+            debugger
             console.error("Error fetching feed:", error);
             if (error.response && error.response.status === 401) {
                     localStorage.removeItem("user");
