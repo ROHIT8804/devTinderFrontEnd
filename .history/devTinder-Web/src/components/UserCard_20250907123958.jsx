@@ -35,12 +35,12 @@ function UserCard({ user }) {
   }
 
   useEffect(() => {
-    if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
+    if(Array.isArray(user?.feedData) && user?.feedData.length === 0){
       setNoRequestsMessage(("No more users available"));
     }
   })
 
-  if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
+  if(Array.isArray(user?.feedData) && user?.feedData.length === 0){
     return (
       <div className="bg-gray-100 p-3 rounded-2xl">
         <NoDataCard message={noRequestsMessage || "No users found"} />

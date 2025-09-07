@@ -6,7 +6,6 @@ import { logout } from '../utils/userSlice';
 import { setFeed } from '../utils/feedSlice';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import NoDataCard from './NoDataCard';
 
 function UserCard({ user }) {
     console.log("user Data",user)
@@ -34,19 +33,9 @@ function UserCard({ user }) {
     }
   }
 
-  useEffect(() => {
-    if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
-      setNoRequestsMessage(("No more users available"));
-    }
+  useEffext(()=>{
+    
   })
-
-  if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
-    return (
-      <div className="bg-gray-100 p-3 rounded-2xl">
-        <NoDataCard message={noRequestsMessage || "No users found"} />
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-wrap gap-4">

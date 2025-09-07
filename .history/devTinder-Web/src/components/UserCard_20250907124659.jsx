@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import NoDataCard from './NoDataCard';
 
 function UserCard({ user }) {
+  debugger
     console.log("user Data",user)
     const dispatch = useDispatch();
     const navigate = useNavigate();

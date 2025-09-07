@@ -6,7 +6,6 @@ import { logout } from '../utils/userSlice';
 import { setFeed } from '../utils/feedSlice';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import NoDataCard from './NoDataCard';
 
 function UserCard({ user }) {
     console.log("user Data",user)
@@ -34,22 +33,25 @@ function UserCard({ user }) {
     }
   }
 
-  useEffect(() => {
-    if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
-      setNoRequestsMessage(("No more users available"));
+  const handleNoData= ()=>{
+    if(!user?.feedData || user?.feedData.length === 0){
+      setNoRequestsMessage("No more users available");
     }
-  })
-
-  if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
-    return (
-      <div className="bg-gray-100 p-3 rounded-2xl">
-        <NoDataCard message={noRequestsMessage || "No users found"} />
-      </div>
-    );
+    else{
+      setNoRequestsMessage("");
+    }
   }
 
+  useEffext(()=>{
+    handleNoData()
+  })
+
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className=" bg-gray-100 p-3 rounded-2xl">
+        {shouldShowNoDataCard() ? (
+          <NoDataCard message={noRequestsMessage} />
+        ) : (
+          <div className="flex flex-wrap gap-4">
       {Array.isArray(user?.feedData) && user?.feedData.map((user, index) => (
         <div key={user._id || index} className="card bg-base-100 w-96 shadow-sm">
           <figure>
@@ -72,6 +74,8 @@ function UserCard({ user }) {
           </div>
         </div>
       ))}
+    </div>
+        )}
     </div>
   );
 }

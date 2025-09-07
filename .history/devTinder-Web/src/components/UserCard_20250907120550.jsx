@@ -5,16 +5,12 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../utils/userSlice';
 import { setFeed } from '../utils/feedSlice';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import NoDataCard from './NoDataCard';
 
 function UserCard({ user }) {
     console.log("user Data",user)
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [noRequestsMessage, setNoRequestsMessage] = useState("");
-
-    const handleRequests = async (data,_id)=>{
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleRequests = async (data,_id)=>{
     console.log("data",data)
     console.log("_id",_id)
     try {
@@ -32,20 +28,6 @@ function UserCard({ user }) {
             }
       console.error("Error:", error); 
     }
-  }
-
-  useEffect(() => {
-    if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
-      setNoRequestsMessage(("No more users available"));
-    }
-  })
-
-  if((Array.isArray(user?.feedData) && user?.feedData.length === 0) || user?.feedData === undefined || user?.feedData === null){
-    return (
-      <div className="bg-gray-100 p-3 rounded-2xl">
-        <NoDataCard message={noRequestsMessage || "No users found"} />
-      </div>
-    );
   }
 
   return (
