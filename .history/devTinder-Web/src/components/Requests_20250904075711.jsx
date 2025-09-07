@@ -52,7 +52,7 @@ const Requests = () => {
       const response = await axios.post(url,{}, { withCredentials: true });
       console.log("response", response);
       if(response.status === 200){
-        dispatch(setRequest(requestData.filter((req)=> req._id !== _id)));
+        getrequestData(true);
       }
     } catch (error) {
       console.error("Error:", error); 
