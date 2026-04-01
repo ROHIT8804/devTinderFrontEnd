@@ -11,7 +11,7 @@ import Feed from "./components/Feed";
 import Connections from "./components/connections";
 import Requests from "./components/Requests";
 import SignUp from "./components/SignUp";
-import Chat from "./components/Chat";
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,7 +28,6 @@ function App() {
             <Route path="/connections" element={<Connections/>} />
             <Route path="/requests" element={<Requests />} />
             <Route path="/signUp" element={<SignUp />} />
-            <Route path="/chat/:targetUserId" element={<Chat />} />
           </Route>
         </Routes>
       </BrowserRouter>
