@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setUser } from "../utils/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
-/* ─── Inline styles (no Tailwind dependency for the new design) ─── */
+/* ─── Unified premium styles matching Login.jsx ─── */
 const styles = {
   page: {
     display: "flex",
-    // minHeight: "100vh",
     fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
     background: "#f0f4f8",
     alignItems: "center",
@@ -98,17 +95,6 @@ const styles = {
     outline: "none",
     transition: "border-color 0.2s, box-shadow 0.2s",
   },
-  forgotRow: {
-    display: "flex",
-    justifyContent: "flex-end",
-    margin: "4px 0 24px",
-  },
-  forgotLink: {
-    fontSize: 13,
-    color: "#64748b",
-    textDecoration: "none",
-    cursor: "pointer",
-  },
   btnPrimary: {
     width: "100%",
     padding: "15px",
@@ -128,26 +114,28 @@ const styles = {
     margin: "10px 0 0",
     minHeight: 18,
   },
-  divider: {
+  successCard: {
+    textAlign: "center",
+    padding: "20px 0",
+  },
+  successIconWrap: {
+    width: 64,
+    height: 64,
+    borderRadius: "50%",
+    background: "rgba(74, 222, 128, 0.15)",
     display: "flex",
     alignItems: "center",
-    gap: 12,
-    margin: "24px 0",
-    color: "#cbd5e1",
-    fontSize: 12,
+    justifyContent: "center",
+    margin: "0 auto 24px",
+    color: "#4ade80",
   },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    background: "#e2e8f0",
-  },
-  signupRow: {
+  loginRow: {
     textAlign: "center",
     fontSize: 13,
     color: "#64748b",
     marginTop: 28,
   },
-  signupLink: {
+  loginLink: {
     color: "#0f172a",
     fontWeight: 700,
     textDecoration: "none",
@@ -178,14 +166,6 @@ const styles = {
     width: 280,
     height: 280,
     marginBottom: 36,
-  },
-  illustrationContent: {
-    position: "absolute",
-    inset: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 90,
   },
   tagline: {
     position: "relative",
@@ -261,7 +241,6 @@ const styles = {
 function HexIllustration() {
   return (
     <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-      {/* hex shape */}
       <path
         d="M140 20 L250 80 L250 200 L140 260 L30 200 L30 80 Z"
         stroke="url(#hexGrad)"
@@ -304,7 +283,7 @@ function HexIllustration() {
   );
 }
 
-/* ── Email icon ── */
+/* ── Icons ── */
 const EmailIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -312,7 +291,6 @@ const EmailIcon = () => (
   </svg>
 );
 
-/* ── Password icon ── */
 const LockIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -320,7 +298,6 @@ const LockIcon = () => (
   </svg>
 );
 
-/* ── Eye toggle icon ── */
 const EyeIcon = ({ open }) =>
   open ? (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -335,17 +312,23 @@ const EyeIcon = ({ open }) =>
     </svg>
   );
 
-export default function Login() {
+const SuccessCheckIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
+export default function ResetPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    if (!email || !password) {
+  const handleResetPassword = async () => {
+    if (!email || !newPassword) {
       setError("Please fill in all fields.");
       return;
     }
@@ -356,28 +339,26 @@ export default function Login() {
       return;
     }
 
+    if (newPassword.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post(
-        BASE_URL + "/login",
-        { emailId: email, password },
+      await axios.post(
+        BASE_URL + "/reset-password",
+        { emailId: email, newPassword },
         { withCredentials: true }
       );
-      const { firstName, emailId } = response.data.user;
-      localStorage.setItem("user", JSON.stringify({ name: firstName, email: emailId }));
-      dispatch(setUser(response.data.user));
-      navigate("/feed");
+      setSuccess(true);
     } catch (err) {
-      setError(err?.response?.data || "Login failed. Please try again.");
+      setError(err?.response?.data || "Failed to reset password. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (localStorage.getItem("user")) navigate("/feed");
-  }, [navigate]);
 
   return (
     <div style={styles.page} className="login-page">
@@ -415,78 +396,96 @@ export default function Login() {
             <span style={styles.logoText}>devTinder</span>
           </div>
 
-          <h1 style={styles.heading}>Welcome Back!</h1>
-          <p style={styles.subheading}>Please enter your login details below</p>
+          {!success ? (
+            <>
+              <h1 style={styles.heading}>Reset Password</h1>
+              <p style={styles.subheading}>Enter your details below to update your password</p>
 
-          <div style={styles.fieldGroup}>
-            {/* Email */}
-            <div style={styles.fieldWrap}>
-              <span style={styles.fieldIcon}><EmailIcon /></span>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="mail@site.com"
-                style={styles.input}
-                onFocus={(e) => { e.target.style.borderColor = "#4f8ef7"; e.target.style.boxShadow = "0 0 0 3px rgba(79,142,247,0.12)"; }}
-                onBlur={(e) => { e.target.style.borderColor = "#e2e8f0"; e.target.style.boxShadow = "none"; }}
-              />
-            </div>
+              <div style={styles.fieldGroup}>
+                {/* Email */}
+                <div style={styles.fieldWrap}>
+                  <span style={styles.fieldIcon}><EmailIcon /></span>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="mail@site.com"
+                    style={styles.input}
+                    onFocus={(e) => { e.target.style.borderColor = "#4f8ef7"; e.target.style.boxShadow = "0 0 0 3px rgba(79,142,247,0.12)"; }}
+                    onBlur={(e) => { e.target.style.borderColor = "#e2e8f0"; e.target.style.boxShadow = "none"; }}
+                  />
+                </div>
 
-            {/* Password */}
-            <div style={styles.fieldWrap}>
-              <span style={styles.fieldIcon}><LockIcon /></span>
-              <input
-                type={showPw ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                style={{ ...styles.input, paddingRight: 46 }}
-                onFocus={(e) => { e.target.style.borderColor = "#4f8ef7"; e.target.style.boxShadow = "0 0 0 3px rgba(79,142,247,0.12)"; }}
-                onBlur={(e) => { e.target.style.borderColor = "#e2e8f0"; e.target.style.boxShadow = "none"; }}
-                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-              />
+                {/* Password */}
+                <div style={styles.fieldWrap}>
+                  <span style={styles.fieldIcon}><LockIcon /></span>
+                  <input
+                    type={showPw ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="New Password (min 6 chars)"
+                    style={{ ...styles.input, paddingRight: 46 }}
+                    onFocus={(e) => { e.target.style.borderColor = "#4f8ef7"; e.target.style.boxShadow = "0 0 0 3px rgba(79,142,247,0.12)"; }}
+                    onBlur={(e) => { e.target.style.borderColor = "#e2e8f0"; e.target.style.boxShadow = "none"; }}
+                    onKeyDown={(e) => e.key === "Enter" && handleResetPassword()}
+                  />
+                  <button
+                    onClick={() => setShowPw(!showPw)}
+                    style={{
+                      position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)",
+                      background: "none", border: "none", cursor: "pointer", color: "#94a3b8", display: "flex", padding: 0,
+                    }}
+                    aria-label={showPw ? "Hide password" : "Show password"}
+                  >
+                    <EyeIcon open={showPw} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Error */}
+              <p style={styles.errorText}>{error}</p>
+
+              {/* CTA */}
               <button
-                onClick={() => setShowPw(!showPw)}
+                onClick={handleResetPassword}
+                disabled={loading}
                 style={{
-                  position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)",
-                  background: "none", border: "none", cursor: "pointer", color: "#94a3b8", display: "flex", padding: 0,
+                  ...styles.btnPrimary,
+                  opacity: loading ? 0.7 : 1,
+                  marginTop: 16,
                 }}
-                aria-label={showPw ? "Hide password" : "Show password"}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "#1e3a5f"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "#0f172a"; }}
               >
-                <EyeIcon open={showPw} />
+                {loading ? "Resetting…" : "Reset Password"}
+              </button>
+
+              {/* Back to Login */}
+              <p style={styles.loginRow}>
+                Remembered your password?
+                <Link to="/login" style={styles.loginLink}>Sign In</Link>
+              </p>
+            </>
+          ) : (
+            <div style={styles.successCard}>
+              <div style={styles.successIconWrap}>
+                <SuccessCheckIcon />
+              </div>
+              <h1 style={styles.heading}>Success!</h1>
+              <p style={{ ...styles.subheading, marginBottom: 32 }}>
+                Your password has been successfully reset. You can now use your new password to sign in.
+              </p>
+              
+              <button
+                onClick={() => navigate("/login")}
+                style={styles.btnPrimary}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "#1e3a5f"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "#0f172a"; }}
+              >
+                Back to Sign In
               </button>
             </div>
-          </div>
-
-          {/* Forgot */}
-          <div style={styles.forgotRow}>
-            <Link to="/reset-password" style={styles.forgotLink}>Forget password?</Link>
-          </div>
-
-          {/* Error */}
-          <p style={styles.errorText}>{error}</p>
-
-          {/* CTA */}
-          <button
-            onClick={handleLogin}
-            disabled={loading}
-            style={{
-              ...styles.btnPrimary,
-              opacity: loading ? 0.7 : 1,
-              marginTop: 4,
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#1e3a5f"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "#0f172a"; }}
-          >
-            {loading ? "Signing in…" : "Sign in"}
-          </button>
-
-          {/* Sign up */}
-          <p style={styles.signupRow}>
-            Don't have an account?
-            <Link to="/signUp" style={styles.signupLink}>Sign Up</Link>
-          </p>
+          )}
         </div>
 
         {/* ── Right ── */}
@@ -501,15 +500,15 @@ export default function Login() {
             <HexIllustration />
           </div>
 
-          <h2 style={styles.tagline}>Connect with Developers Anywhere</h2>
+          <h2 style={styles.tagline}>Access Secured</h2>
           <p style={styles.taglineSub}>
-            Swipe, match, and collaborate with talented developers on projects you love.
+            Update your account security settings easily and get back to swiping, matching, and collaborating.
           </p>
 
           {/* Dots indicator */}
           <div style={styles.dots}>
-            <div style={styles.dot(true)} />
             <div style={styles.dot(false)} />
+            <div style={styles.dot(true)} />
             <div style={styles.dot(false)} />
           </div>
         </div>

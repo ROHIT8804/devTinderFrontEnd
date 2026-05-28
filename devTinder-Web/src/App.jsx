@@ -11,6 +11,7 @@ import Feed from "./components/Feed";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import SignUp from "./components/SignUp";
+import ResetPassword from "./components/ResetPassword";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/connections" element={<Connections/>} />
             <Route path="/requests" element={<Requests />} />
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
       </BrowserRouter>

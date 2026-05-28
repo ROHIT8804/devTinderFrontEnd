@@ -13,6 +13,8 @@ function Body() {
   const location = useLocation();
   const userData = useSelector((state) => state.user);
 
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signUp' || location.pathname === '/reset-password';
+
   const fetchUser = async () => {
     if(userData.name) return;
     try{
@@ -25,7 +27,9 @@ function Body() {
     catch (error) {
       if (error.response && error.response.status === 401) {
               localStorage.removeItem("user");
-              navigate("/login");
+              if (!isAuthPage) {
+                navigate("/login");
+              }
             }
       console.error("Error fetching user:", error);
     }
@@ -35,8 +39,6 @@ function Body() {
   useEffect(() => {
     fetchUser();
   }, []);
-
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/signUp';
 
   return (
     <div className="relative min-h-screen ">
